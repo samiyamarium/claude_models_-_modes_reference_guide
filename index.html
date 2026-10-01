@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Claude Models & Thinking Modes: Study Guide</title>
+<style>
+:root{--bg:#F7F4EF;--ink:#241B3A;--muted:#5E5575;--v:#5B34B8;--vl:#E9E1F7;--vd:#2E1A63;--line:#D9CFEA;--card:#FFFDF9;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17102B;--ink:#F1ECE4;--muted:#B9AED3;--v:#B79CFF;--vl:#2B2050;--vd:#D9C9FF;--line:#3A2D66;--card:#1F1738}}
+:root[data-theme="dark"]{--bg:#17102B;--ink:#F1ECE4;--muted:#B9AED3;--v:#B79CFF;--vl:#2B2050;--vd:#D9C9FF;--line:#3A2D66;--card:#1F1738}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 Georgia,"Iowan Old Style",serif}
+header{background:var(--vd);color:#F7F4EF;padding:56px 24px 48px}
+:root[data-theme="dark"] header,:root:not([data-theme="light"]) header{background:var(--vl)}
+.wrap{max-width:900px;margin:0 auto}
+h1{font:700 clamp(30px,6vw,48px)/1.1 "Trebuchet MS",Verdana,sans-serif;margin:0 0 14px;letter-spacing:-.5px}
+header p{max-width:60ch;margin:0;opacity:.9}
+main{padding:20px 24px 64px}
+h2{font:700 26px/1.2 "Trebuchet MS",Verdana,sans-serif;color:var(--v);margin:48px 0 8px}
+h2+p{color:var(--muted);margin:0 0 20px;max-width:65ch}
+.models{display:grid;gap:14px}
+.m{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--v);border-radius:6px;padding:18px 20px}
+.m.top{border-left-color:var(--vd)}
+.m h3{margin:0;font:700 19px "Trebuchet MS",Verdana,sans-serif}
+.id{font:13px Consolas,Menlo,monospace;color:var(--muted);word-break:break-all}
+.m dl{display:grid;grid-template-columns:110px 1fr;gap:4px 14px;margin:12px 0 0}
+.m dt{font-weight:700;color:var(--v)}
+.m dd{margin:0}
+.tag{display:inline-block;background:var(--vl);color:var(--vd);border-radius:20px;padding:1px 10px;font:13px "Trebuchet MS",sans-serif;margin:0 4px 4px 0}
+:root[data-theme="dark"] .tag{color:var(--ink)}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:560px;background:var(--card)}
+th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+th{background:var(--vl);font-family:"Trebuchet MS",sans-serif}
+details{background:var(--card);border:1px solid var(--line);border-radius:6px;margin-bottom:10px}
+summary{cursor:pointer;padding:14px 18px;font:700 17px "Trebuchet MS",sans-serif;color:var(--vd)}
+:root[data-theme="dark"] summary{color:var(--ink)}
+summary:focus-visible,a:focus-visible{outline:3px solid var(--v);outline-offset:2px}
+details[open] summary{border-bottom:1px solid var(--line)}
+details div{padding:12px 18px 16px}
+details p{margin:0 0 8px}
+.terms{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
+.t{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+.t b{color:var(--v);font-family:"Trebuchet MS",sans-serif}
+.note{background:var(--vl);border-radius:6px;padding:14px 18px;margin-top:28px;font-size:15px}
+.uc{margin-top:14px;background:var(--v);color:#fff;border:0;border-radius:20px;padding:7px 16px;font:600 14px "Trebuchet MS",sans-serif;cursor:pointer}
+:root[data-theme="dark"] .uc{color:#17102B}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .uc{color:#17102B}}
+.uc:hover{filter:brightness(1.1)}.uc:focus-visible{outline:3px solid var(--vd);outline-offset:2px}
+dialog{width:min(560px,92vw);max-height:86vh;overflow:auto;background:var(--card);color:var(--ink);border:1px solid var(--line);border-top:6px solid var(--v);border-radius:8px;padding:22px 24px}
+dialog::backdrop{background:rgba(36,27,58,.55)}
+dialog h3{margin:0 0 4px;font:700 21px "Trebuchet MS",sans-serif;color:var(--v)}
+dialog .sub{margin:0 0 14px;color:var(--muted);font-size:15px}
+.case{background:var(--vl);border-radius:6px;padding:10px 14px;margin-bottom:10px}
+.case b{display:block;font-family:"Trebuchet MS",sans-serif}
+.case span{font-size:15px}
+.x{margin-top:6px;background:transparent;border:1px solid var(--v);color:var(--v);border-radius:20px;padding:6px 16px;font:600 14px "Trebuchet MS",sans-serif;cursor:pointer}
+@media (prefers-reduced-motion:no-preference){dialog[open]{animation:pop .18s ease-out}@keyframes pop{from{transform:scale(.96);opacity:0}}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>Claude Models & Thinking Modes</h1>
+<p>A quick study guide: which model to pick, what it costs you in speed, where it fits, and how Claude's reasoning and research modes work. Key exam terms are in the glossary at the end.</p>
+</div></header>
+<main><div class="wrap">
+
+<h2>Models available</h2>
+<p>Anthropic organises Claude into tiers. Larger tiers reason better; smaller tiers answer faster and cost less per token.</p>
+<div class="models">
+
+<div class="m top"><h3>Claude Fable 5.1 <span class="tag">Mythos tier</span></h3>
+<div class="id">claude-fable-5-1</div>
+<dl><dt>Strength</dt><dd>Most capable public model. Shares the underlying model with Claude Mythos 5.1, plus extra safeguards for biology, cybersecurity and LLM R&D.</dd>
+<dt>Timing</dt><dd>Slowest and highest cost; use when quality matters more than speed.</dd>
+<dt>Applications</dt><dd>Frontier research, hard multi-step agents, complex analysis, high-stakes work.</dd></dl><button class="uc" data-k="fable">See use cases</button></div>
+
+<div class="m"><h3>Claude Opus 5.5 <span class="tag">Opus tier</span></h3>
+<div class="id">claude-opus-5-5</div>
+<dl><dt>Strength</dt><dd>Deep reasoning and long, complex tasks.</dd>
+<dt>Timing</dt><dd>Slower, premium cost.</dd>
+<dt>Applications</dt><dd>Architecture decisions, difficult coding, long-horizon agentic workflows, detailed reports.</dd></dl><button class="uc" data-k="opus">See use cases</button></div>
+
+<div class="m"><h3>Claude Sonnet 5.5 <span class="tag">Sonnet tier</span></h3>
+<div class="id">claude-sonnet-5-5</div>
+<dl><dt>Strength</dt><dd>Balanced intelligence, speed and cost; the everyday workhorse.</dd>
+<dt>Timing</dt><dd>Moderate latency, mid-range cost.</dd>
+<dt>Applications</dt><dd>General chat, coding, content, data analysis, production apps and assistants.</dd></dl><button class="uc" data-k="sonnet">See use cases</button></div>
+
+<div class="m"><h3>Claude Haiku 4.5 <span class="tag">Haiku tier</span></h3>
+<div class="id">claude-haiku-4-5-20251001</div>
+<dl><dt>Strength</dt><dd>Fastest and cheapest.</dd>
+<dt>Timing</dt><dd>Lowest latency; suited to real-time use.</dd>
+<dt>Applications</dt><dd>Classification, routing, extraction, customer-support bots, high-volume pipelines, sub-agents.</dd></dl><button class="uc" data-k="haiku">See use cases</button></div>
+
+<div class="m"><h3>Claude Mythos Preview <span class="tag">Restricted</span></h3>
+<div class="id">Not publicly available</div>
+<dl><dt>Status</dt><dd>First Mythos-class model, used by a small set of trusted organisations under Project Glasswing.</dd></dl></div>
+</div>
+
+<h2>Choosing a model</h2>
+<p>Match the model to the task, then optimise for latency and cost.</p>
+<div class="scroll"><table>
+<tr><th>Need</th><th>Start with</th><th>Why</th></tr>
+<tr><td>Real-time, high volume</td><td>Haiku</td><td>Lowest latency and cost per token</td></tr>
+<tr><td>Balanced daily work</td><td>Sonnet</td><td>Best quality-to-cost ratio</td></tr>
+<tr><td>Complex reasoning</td><td>Opus</td><td>Stronger multi-step reasoning</td></tr>
+<tr><td>Hardest problems</td><td>Fable / Mythos tier</td><td>Highest capability</td></tr>
+</table></div>
+<p class="note">Rule of thumb: model size trades intelligence against speed and price. Many production systems use an orchestrator-worker pattern: a larger model plans, smaller models execute.</p>
+
+<h2>Thinking and research modes</h2>
+<p>These control how much Claude reasons or looks up before answering. More effort usually means better answers on hard tasks but higher latency and token use.</p>
+
+<details open><summary>Standard response</summary><div>
+<p>Claude answers directly from training knowledge and the conversation. Fastest option.</p>
+<p><b>Use for:</b> simple Q&A, drafting, summaries, casual chat.</p><button class="uc" data-k="standard">See use cases</button></div></details>
+
+<details><summary>Extended thinking</summary><div>
+<p>Claude reasons step by step in a visible thinking block before the final reply. In the API it is enabled with a thinking parameter and a <b>budget_tokens</b> limit; thinking tokens are billed as output tokens. Newer models can also adapt how much they think to task difficulty (adaptive thinking).</p>
+<p><b>Timing:</b> slower, scales with budget. <b>Use for:</b> maths, logic, debugging, planning, multi-step analysis.</p><button class="uc" data-k="extended">See use cases</button></div></details>
+
+<details><summary>Web search</summary><div>
+<p>Claude fetches current information from the web and cites sources. Reduces dependence on the knowledge cutoff.</p>
+<p><b>Timing:</b> a few seconds per search. <b>Use for:</b> news, prices, current facts, anything that changes over time.</p><button class="uc" data-k="search">See use cases</button></div></details>
+
+<details><summary>Research (deep research)</summary><div>
+<p>An agentic mode: Claude plans, runs many searches, reads sources, cross-checks and writes a cited report. It can also draw on connected tools and files.</p>
+<p><b>Timing:</b> slowest, minutes rather than seconds. <b>Use for:</b> market scans, literature reviews, competitor analysis, long cited briefs.</p><button class="uc" data-k="research">See use cases</button></div></details>
+
+<details><summary>Tool use, connectors and MCP</summary><div>
+<p>Claude calls external tools (APIs, files, apps) through function calling. The <b>Model Context Protocol (MCP)</b> is an open standard for connecting Claude to data sources and services.</p>
+<p><b>Use for:</b> agents that act on email, calendars, code repos, databases.</p><button class="uc" data-k="tools">See use cases</button></div></details>
+
+<div class="scroll"><table style="margin-top:14px">
+<tr><th>Mode</th><th>Speed</th><th>Depth</th><th>Live data</th></tr>
+<tr><td>Standard</td><td>Fastest</td><td>Low</td><td>No</td></tr>
+<tr><td>Extended thinking</td><td>Slower</td><td>High reasoning</td><td>No</td></tr>
+<tr><td>Web search</td><td>Fast</td><td>Moderate</td><td>Yes</td></tr>
+<tr><td>Research</td><td>Slowest</td><td>Highest breadth</td><td>Yes</td></tr>
+</table></div>
+
+<h2>Where to access Claude</h2>
+<p>Know the surfaces and what each is for.</p>
+<div class="terms">
+<div class="t"><b>Claude apps</b><br>Web, mobile and desktop chat.</div>
+<div class="t"><b>API / Claude Platform</b><br>Build your own apps with the Messages API.</div>
+<div class="t"><b>Claude Code</b><br>Agentic coding from the terminal or desktop.</div>
+<div class="t"><b>Claude Cowork</b><br>Agentic desktop app for knowledge work.</div>
+<div class="t"><b>Claude in Chrome / Excel / PowerPoint</b><br>Agents embedded in browser and Office tools.</div>
+<div class="t"><b>Claude Tag</b><br>Tag @Claude in Slack to delegate tasks.</div>
+</div>
+
+<h2>Key terms glossary</h2>
+<p>Terms worth knowing for certification-style questions.</p>
+<div class="terms">
+<div class="t"><b>Context window</b><br>Maximum tokens Claude can consider in one request, input plus output.</div>
+<div class="t"><b>Token</b><br>Unit of text processed and billed; roughly three-quarters of a word.</div>
+<div class="t"><b>Latency</b><br>Time until a response begins or completes.</div>
+<div class="t"><b>Knowledge cutoff</b><br>Date after which training data ends; web search fills the gap.</div>
+<div class="t"><b>System prompt</b><br>Instructions that set role, tone and rules for a conversation.</div>
+<div class="t"><b>Prompt engineering</b><br>Clear instructions, examples, step-by-step reasoning, XML tags, format limits.</div>
+<div class="t"><b>Temperature</b><br>Controls randomness; lower is more deterministic.</div>
+<div class="t"><b>max_tokens</b><br>Cap on tokens generated in a reply.</div>
+<div class="t"><b>Chain of thought</b><br>Reasoning step by step; extended thinking builds it in.</div>
+<div class="t"><b>budget_tokens</b><br>Maximum tokens allowed for extended thinking.</div>
+<div class="t"><b>Tool use / function calling</b><br>Claude requests actions from external functions.</div>
+<div class="t"><b>MCP</b><br>Model Context Protocol, a standard for connecting tools and data.</div>
+<div class="t"><b>Agent</b><br>Claude working in a loop with tools toward a goal.</div>
+<div class="t"><b>Multimodal</b><br>Accepts text, images and PDFs as input.</div>
+<div class="t"><b>RAG</b><br>Retrieval-augmented generation: fetch documents, then answer from them.</div>
+<div class="t"><b>Hallucination</b><br>Confident but incorrect output; reduce with grounding and citations.</div>
+<div class="t"><b>Prompt caching</b><br>Reuse repeated prompt prefixes to cut cost and latency.</div>
+<div class="t"><b>Batch processing</b><br>Asynchronous bulk requests at lower cost.</div>
+<div class="t"><b>Safety / alignment</b><br>Anthropic's focus on helpful, honest and harmless behaviour.</div>
+<div class="t"><b>Skills</b><br>Folders of instructions that teach Claude repeatable tasks.</div>
+</div>
+
+<p class="note">Check Anthropic's documentation (docs.claude.com) for current pricing, limits and model availability, since these change. Confirm the official CCAO syllabus too: this guide covers general Claude concepts, not an exam blueprint.</p>
+</div></main>
+<dialog id="dlg" aria-labelledby="dt"><h3 id="dt"></h3><p class="sub" id="ds"></p><div id="db"></div><button class="x" id="dx">Close</button></dialog>
+<script>
+const D={
+fable:["Claude Fable 5.1","Top-tier capability for the hardest work",[["Scientific literature synthesis","Reads dozens of papers, reconciles conflicting results and proposes next experiments."],["Autonomous multi-day agent","Plans, executes and self-corrects a large software migration with minimal supervision."],["High-stakes review","Audits a complex contract or financial model and flags subtle risks."]]],
+opus:["Claude Opus 5.5","Deep reasoning for complex, long tasks",[["System architecture design","Compares trade-offs across services, databases and scaling limits, then drafts a design doc."],["Hard debugging","Traces a bug across a large codebase and explains the root cause."],["Long strategy report","Turns scattered notes and data into a structured, reasoned recommendation."]]],
+sonnet:["Claude Sonnet 5.5","The balanced everyday model",[["Customer-facing assistant","Answers product questions in a production chatbot with good quality at moderate cost."],["Code help","Writes functions, reviews pull requests and generates unit tests."],["Data analysis","Summarises a spreadsheet, spots trends and drafts the insights email."]]],
+haiku:["Claude Haiku 4.5","Fast and low cost for volume",[["Ticket triage","Classifies thousands of support emails by topic and urgency in real time."],["Data extraction","Pulls names, dates and amounts from invoices into structured JSON."],["Sub-agent in a pipeline","Runs quick parallel steps while a larger model orchestrates."]]],
+standard:["Standard response","Fast answers from existing knowledge",[["Quick explanation","Ask what a token is and get a clear answer in seconds."],["Email draft","Turn three bullet points into a polite message."],["Summarise text","Condense a pasted article into five lines."]]],
+extended:["Extended thinking","Step-by-step reasoning before the reply",[["Maths word problem","Works through the steps and checks its own result before answering."],["Tricky bug","Reasons about program state and edge cases to find a logic error."],["Project plan","Weighs dependencies and risks, then orders the tasks sensibly."]]],
+search:["Web search","Current facts with cited sources",[["Latest news","Finds what changed this week on a topic and cites where it came from."],["Current prices","Checks today's price or availability of a product."],["Fact check","Verifies a recent claim against several sources."]]],
+research:["Research (deep research)","Multi-step, cited reports",[["Market scan","Maps competitors, pricing and trends into a sourced briefing."],["Literature review","Gathers and compares studies on a technical topic."],["Due diligence","Investigates a vendor across many public sources and compiles findings."]]],
+tools:["Tool use, connectors and MCP","Claude acting on your apps and data",[["Calendar assistant","Finds a free slot across calendars and drafts the invite."],["Repo helper","Reads issues in a code host, then proposes and opens a fix."],["Database Q&A","Queries a connected database and explains the result in plain language."]]]
+};
+const dlg=document.getElementById('dlg');
+document.querySelectorAll('.uc').forEach(b=>b.addEventListener('click',e=>{
+ e.preventDefault();e.stopPropagation();
+ const d=D[b.dataset.k];
+ document.getElementById('dt').textContent=d[0];
+ document.getElementById('ds').textContent=d[1];
+ const box=document.getElementById('db');box.innerHTML='';
+ d[2].forEach(c=>{const x=document.createElement('div');x.className='case';
+  const t=document.createElement('b');t.textContent=c[0];
+  const m=document.createElement('span');m.textContent=c[1];
+  x.append(t,m);box.append(x);});
+ dlg.showModal();
+}));
+document.getElementById('dx').addEventListener('click',()=>dlg.close());
+dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close();});
+</script>
+</body>
+</html>
